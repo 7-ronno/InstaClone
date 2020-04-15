@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.parse.GetCallback;
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
@@ -16,12 +16,15 @@ import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
+import java.util.List;
+
 public class SignUp extends AppCompatActivity implements View.OnClickListener {
 
     private Button save;
     private EditText name,power,speed;
     private TextView serv;
     private Button getserv;
+    private String allboxers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +44,21 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         getserv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                allboxers="";
                 ParseQuery<ParseObject> boxer=ParseQuery.getQuery("Boxers");
-                boxer.getInBackground("DsLqr5yHVh", new GetCallback<ParseObject>() {
+                boxer.findInBackground(new FindCallback<ParseObject>() {
                     @Override
-                    public void done(ParseObject object, ParseException e) {
-                        if(e==null){
-                            serv.setText(object.get("name")+"");
+                    public void done(List<ParseObject> objects, ParseException e) {
+                        if(e==null)
+                        {
+                            if(objects.size()>0){
+                                for(ParseObject boxname:objects){
+                                    allboxers=allboxers+boxname.get("name")+"\n";
+                                }
+                                serv.setText(allboxers);
+                                FancyToast.makeText(SignUp.this,  " data from server", FancyToast.LENGTH_LONG, FancyToast.SUCCESS, true).show();
+                            }
                         }
                         else{
                             FancyToast.makeText(SignUp.this, e.getMessage(), FancyToast.LENGTH_LONG, FancyToast.ERROR, true).show();
