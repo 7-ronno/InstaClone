@@ -4,66 +4,51 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:onClick="RootLayoutTapped"
-    tools:context=".SignUp">
+    android:onClick="RootLayoutTapped">
 
     <EditText
-        android:id="@+id/enEmail"
+        android:id="@+id/enUsernameLog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="112dp"
+        android:layout_marginTop="88dp"
         android:ems="10"
-        android:hint="Enter your email"
+        android:hint="username"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/enUsername"
+        android:id="@+id/enPasswordLog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="76dp"
         android:ems="10"
-        android:hint="Enter username"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.51"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/enEmail" />
-
-    <EditText
-        android:id="@+id/enPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:ems="10"
-        android:hint="Enter Password"
+        android:hint="passowrd"
         android:inputType="textPersonName|textPassword"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.51"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/enUsername" />
+        app:layout_constraintTop_toBottomOf="@+id/enUsernameLog" />
 
     <Button
-        android:id="@+id/btnSignUp"
+        android:id="@+id/btnLoginLog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="76dp"
-        android:text="Sign Up"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/enPassword" />
-
-    <Button
-        android:id="@+id/btnLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="72dp"
         android:text="Login"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.306"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnSignUp" />
+        app:layout_constraintTop_toBottomOf="@+id/enPasswordLog" />
 
+    <Button
+        android:id="@+id/btnSignuplog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="156dp"
+        android:text="Sign Up"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/enPasswordLog" />
 </androidx.constraintlayout.widget.ConstraintLayout>

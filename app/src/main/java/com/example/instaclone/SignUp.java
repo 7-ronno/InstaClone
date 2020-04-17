@@ -1,30 +1,27 @@
 package com.example.instaclone;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.SaveCallback;
+import com.parse.ParseUser;
+import com.parse.SignUpCallback;
 import com.shashank.sony.fancytoastlib.FancyToast;
-
-import java.util.List;
 
 public class SignUp extends AppCompatActivity implements View.OnClickListener {
 
-    private Button save;
-    private EditText name,power,speed;
-    private TextView serv;
-    private Button getserv;
-    private String allboxers;
+    private Button btnLogin,btnSignup;
+    private EditText enEmail,enUsername,enPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,66 +29,70 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         setContentView(R.layout.activity_main);
         ParseInstallation.getCurrentInstallation().saveInBackground();
 
-        save=findViewById(R.id.save);
-        name=findViewById(R.id.name);
-        power=findViewById(R.id.power);
-        speed=findViewById(R.id.speed);
-        serv=findViewById(R.id.txtGetServ);
-        getserv=findViewById(R.id.btnGet);
+        setTitle("SignUp");
 
-        save.setOnClickListener(SignUp.this);
+        btnLogin=findViewById(R.id.btnLogin);
+        btnSignup=findViewById(R.id.btnSignUp);
 
-        getserv.setOnClickListener(new View.OnClickListener() {
+        enEmail=findViewById(R.id.enEmail);
+        enUsername=findViewById(R.id.enUsername);
+        enPassword=findViewById(R.id.enPassword);
+
+        enPassword.setOnKeyListener(new View.OnKeyListener() {
             @Override
-            public void onClick(View v) {
-
-                allboxers="";
-                ParseQuery<ParseObject> boxer=ParseQuery.getQuery("Boxers");
-                boxer.findInBackground(new FindCallback<ParseObject>() {
-                    @Override
-                    public void done(List<ParseObject> objects, ParseException e) {
-                        if(e==null)
-                        {
-                            if(objects.size()>0){
-                                for(ParseObject boxname:objects){
-                                    allboxers=allboxers+boxname.get("name")+"\n";
-                                }
-                                serv.setText(allboxers);
-                                FancyToast.makeText(SignUp.this,  " data from server", FancyToast.LENGTH_LONG, FancyToast.SUCCESS, true).show();
-                            }
-                        }
-                        else{
-                            FancyToast.makeText(SignUp.this, e.getMessage(), FancyToast.LENGTH_LONG, FancyToast.ERROR, true).show();
-                        }
-                    }
-                });
-
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if(keyCode==KeyEvent.KEYCODE_ENTER && event.getAction()==KeyEvent.ACTION_DOWN){
+                    onClick(btnSignup);
+                }
+                return false;
             }
         });
+
+        btnSignup.setOnClickListener(SignUp.this);
+        btnLogin.setOnClickListener(SignUp.this);
+
+        if(ParseUser.getCurrentUser()!=null){
+            ParseUser.getCurrentUser().logOut();
+        }
     }
 
     @Override
-    public void onClick(View v) {
-        try {
-            final ParseObject boxer = new ParseObject("Boxers");
-            boxer.put("name", name.getText().toString());
-            boxer.put("power", Integer.parseInt(power.getText().toString()));
-            boxer.put("speed", Integer.parseInt(speed.getText().toString()));
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.btnLogin:
+                Intent intent=new Intent(SignUp.this,Login.class);
+                startActivity(intent);
+                break;
 
-            boxer.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    if (e == null) {
-                        FancyToast.makeText(SignUp.this, boxer.get("name") + " has been saved to server", FancyToast.LENGTH_LONG, FancyToast.SUCCESS, true).show();
-                    } else {
-                        FancyToast.makeText(SignUp.this, e.getMessage(), FancyToast.LENGTH_LONG, FancyToast.ERROR, true).show();
+            case R.id.btnSignUp:
+
+                final ParseUser newUser= new ParseUser();
+                newUser.setEmail(enEmail.getText().toString());
+                newUser.setUsername(enUsername.getText().toString());
+                newUser.setPassword(enPassword.getText().toString());
+
+                final ProgressDialog progress=new ProgressDialog(this);
+                progress.setMessage("Signing Up"+ enUsername.getText().toString());
+                progress.show();
+                newUser.signUpInBackground(new SignUpCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if(e==null){
+                            FancyToast.makeText(SignUp.this,"SignUp successful "+newUser.getUsername(), Toast.LENGTH_LONG,FancyToast.SUCCESS,true).show();
+                        }
+                        else{
+                            FancyToast.makeText(SignUp.this,e.getMessage(), Toast.LENGTH_LONG,FancyToast.ERROR,true).show();
+                        }
+                        progress.dismiss();
                     }
-                }
-            });
+                });
+
+                break;
         }
-        catch (Exception e)
-        {
-            FancyToast.makeText(SignUp.this, e.getMessage(), FancyToast.LENGTH_LONG, FancyToast.ERROR, true).show();
-        }
+    }
+
+    public void RootLayoutTapped(View view){
+        InputMethodManager manager=(InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        manager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),0);
     }
 }
