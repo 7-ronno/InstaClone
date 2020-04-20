@@ -1,5 +1,6 @@
 package com.example.instaclone;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -25,7 +26,7 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.login_layout);
-        setTitle("Log In");
+        setTitle("Log In "+ParseUser.getCurrentUser().getUsername());
 
         btnlogin=findViewById(R.id.btnLoginLog);
         enpassword=findViewById(R.id.enPasswordLog);
@@ -40,6 +41,7 @@ public class Login extends AppCompatActivity {
                     public void done(ParseUser user, ParseException e) {
                         if(e==null && user!=null){
                             FancyToast.makeText(Login.this,"Login successful "+ParseUser.getCurrentUser().getUsername(), Toast.LENGTH_LONG,FancyToast.SUCCESS,true).show();
+                            tohome();
                         }
                         else if(e!=null){
                             FancyToast.makeText(Login.this,e.getMessage(), Toast.LENGTH_LONG,FancyToast.ERROR,true).show();
@@ -65,12 +67,24 @@ public class Login extends AppCompatActivity {
         });
 
         if(ParseUser.getCurrentUser()!=null){
-            ParseUser.getCurrentUser().logOut();
+           tohome();
         }
     }
 
-    public void RootLayoutTapped(View view){
-        InputMethodManager manager=(InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-        manager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),0);
+
+        public void RootLayoutTapped (View view) {
+            try {
+                InputMethodManager manager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                manager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+            }catch (Exception e){
+                e.fillInStackTrace();
+            }
+        }
+
+    public void tohome(){
+        Intent intent=new Intent(Login.this,Home.class);
+        startActivity(intent);
     }
 }
+
+

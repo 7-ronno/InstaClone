@@ -52,8 +52,8 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         btnLogin.setOnClickListener(SignUp.this);
 
         if(ParseUser.getCurrentUser()!=null){
-            ParseUser.getCurrentUser().logOut();
-        }
+           tohome();
+       }
     }
 
     @Override
@@ -79,6 +79,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
                     public void done(ParseException e) {
                         if(e==null){
                             FancyToast.makeText(SignUp.this,"SignUp successful "+newUser.getUsername(), Toast.LENGTH_LONG,FancyToast.SUCCESS,true).show();
+                            tohome();
                         }
                         else{
                             FancyToast.makeText(SignUp.this,e.getMessage(), Toast.LENGTH_LONG,FancyToast.ERROR,true).show();
@@ -91,8 +92,17 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         }
     }
 
-    public void RootLayoutTapped(View view){
-        InputMethodManager manager=(InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-        manager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),0);
+    public void RootLayoutTapped(View view) {
+        try {
+            InputMethodManager manager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            manager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+            }catch (Exception e){
+            e.fillInStackTrace();
+        }
+    }
+
+    public void tohome(){
+        Intent intent=new Intent(SignUp.this,Home.class);
+        startActivity(intent);
     }
 }
