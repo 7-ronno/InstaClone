@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.parse.LogInCallback;
@@ -22,11 +21,11 @@ public class Login extends AppCompatActivity {
     private EditText enusername,enpassword;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.login_layout);
-        setTitle("Log In "+ParseUser.getCurrentUser().getUsername());
+        setTitle("Log In ");
 
         btnlogin=findViewById(R.id.btnLoginLog);
         enpassword=findViewById(R.id.enPasswordLog);

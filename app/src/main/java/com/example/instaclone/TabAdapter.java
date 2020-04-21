@@ -16,9 +16,9 @@ public class TabAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch (position){
-            case 1:return  new Profile();
-            case 2:return new User();
-            case 3:return new Share();
+            case 0:return  new Profile();
+            case 1:return new User();
+            case 2:return new Share();
             default:return null;
         }
     }
@@ -32,9 +32,9 @@ public class TabAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         switch (position){
-            case 1:return "Profile";
-            case 2:return "User";
-            case 3:return "Share";
+            case 0:return "Profile";
+            case 1:return "User";
+            case 2:return "Share";
             default:return null;
         }
     }
