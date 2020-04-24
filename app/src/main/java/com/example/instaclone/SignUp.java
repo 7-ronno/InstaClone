@@ -53,6 +53,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
 
         if(ParseUser.getCurrentUser()!=null){
            tohome();
+           finish();
        }
     }
 
@@ -62,6 +63,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
             case R.id.btnLogin:
                 Intent intent=new Intent(SignUp.this,Login.class);
                 startActivity(intent);
+                finish();
                 break;
 
             case R.id.btnSignUp:

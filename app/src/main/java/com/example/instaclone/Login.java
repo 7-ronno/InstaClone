@@ -57,16 +57,15 @@ public class Login extends AppCompatActivity {
         btnsignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(ParseUser.getCurrentUser()!=null){
-                    FancyToast.makeText(Login.this,"Logging out "+ParseUser.getCurrentUser().getUsername(), Toast.LENGTH_LONG,FancyToast.SUCCESS,true).show();
-                    ParseUser.getCurrentUser().logOut();
-                }
+                Intent intent=new Intent(Login.this,SignUp.class);
+                startActivity(intent);
                 finish();
             }
         });
 
         if(ParseUser.getCurrentUser()!=null){
            tohome();
+           finish();
         }
     }
 
